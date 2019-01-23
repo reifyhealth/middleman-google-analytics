@@ -15,7 +15,8 @@ module Middleman
     option :test, false, 'Testing your implementation without sending hits'
     option :minify, false, 'Compress the JavaScript code'
     option :output, :html, 'Output style - :html includes <script> tag'
-
+    option :cookiebot, false, 'Should GA installation be cookiebot awase ?'
+    
     def after_configuration
       options.test = true if ENV['TEST'] != 'true' && app.development?
 
@@ -28,10 +29,15 @@ module Middleman
         $stderr.puts 'Google Analytics: Please specify a domain_name when using allow_linker'
         raise ArgumentError, 'No domain_name given' if app.build?
       end
-
+      
       unless [:html, :js].include?(options.output.try(:to_sym))
         $stderr.puts 'Google Analytics: Please specify a valid output type (html|js).'
         raise ArgumentError, 'Only "html" or "js" allowed' if app.build?
+      end
+
+      if options.cookiebot and not [:html].include?(options.output.try(:to_sym))
+        $stderr.puts 'Google Analytics: For cookiebot to work, output must be set to html'
+        raise ArgumentError, 'Permitted only when output is set to html' if app.build?
       end
     end
 
