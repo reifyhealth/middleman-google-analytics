@@ -15,7 +15,7 @@ module Middleman
     option :test, false, 'Testing your implementation without sending hits'
     option :minify, false, 'Compress the JavaScript code'
     option :output, :html, 'Output style - :html includes <script> tag'
-    option :cookiebot, false, 'Should GA installation be cookiebot awase ?'
+    option :cookiebot, false, 'Should GA installation be cookiebot aware ?'
     
     def after_configuration
       options.test = true if ENV['TEST'] != 'true' && app.development?
