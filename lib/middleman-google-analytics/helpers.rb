@@ -18,7 +18,11 @@ module Middleman
 
         if options.output.to_sym == :html
           content = indent(content) unless options.minify
-          content_tag(:script, content)
+          if options.cookiebot
+            content_tag(:script, content, :class => 'text/plain', 'data-cookieconsent' => 'statistics')
+          else
+            content_tag(:script, content)
+          end  
         else
           content
         end
